@@ -1,86 +1,104 @@
-/* ------------------------- Sign In ------------------------- */
-.sign-in {
-  height: 50%;
+/* page.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  width: 20%;
-  padding: 40px;
-  border-radius: 6px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-color: var(--white);
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #333;
 }
 
 .sign-in-page {
-  background: rgb(255, 255, 255);
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(68, 130, 244, 1) 74%,
-    rgba(244, 194, 80, 1) 100%
-  );
-  height: 100vh;
-  width: 100vw;
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-.sign-in > form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  width: 100%;
   height: 100%;
 }
 
-.sign-in > form > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 40%;
-}
-
-.sign-in > form label {
-  display: flex;
-  flex-direction: column;
-  margin-block: 5px;
-  gap: 5px;
-  font-size: small;
-  font-weight: bold;
-  color: black;
-}
-
-.sign-in > form > div > label > input {
-  height: 30px;
-  padding-inline: 5px;
-}
-
-.sign-in > p {
-  font-size: small;
-}
-
-.sign-in > form button {
-  width: 50%;
-  background-color: #4482f4;
-  height: 30px;
-  border-radius: 6px;
-  color: #ffff;
-  border: 0.5px solid;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.sign-in > form > div:nth-child(2) {
-  display: flex;
-  justify-content: center;
+.sign-in {
+  background-color: #fff;
   width: 100%;
-  align-items: center;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-
-.sign-in > p {
-  color: black;
+h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 15px;
 }
 
-.sign-in > p > a {
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputs label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #007bff;
+}
+
+button {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 15px;
+}
+
+a {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #0056b3;
 }

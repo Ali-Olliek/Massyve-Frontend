@@ -1,4 +1,5 @@
 'use client';
+import './page.css';
 import React, { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
 import { AuthGuard } from './components/AuthGuard';
@@ -13,7 +14,6 @@ export default function Home() {
   }
 
   const { user } = userContext;
-
   const navigate = useRouter();
 
   const handleRefreshToken = async () => {
@@ -22,19 +22,20 @@ export default function Home() {
 
   const handleLogout = async () => {
     await signOutService();
-
     navigate.push(ROUTES['sign-in']);
   };
 
   return (
     <AuthGuard>
-      <main>
+      <div className='container'>
         <h1>Hello, {user?.username}</h1>
-        <h3>Your Access Token is: {user?.accessToken}</h3>
+        <p>Your Access Token is:</p>
+        <div className='token-box'>{user?.accessToken}</div>
         <button onClick={handleRefreshToken}>Request a new access token</button>
-        <br />
-        <button onClick={handleLogout}>Logout</button>
-      </main>
+        <button className='logout' onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </AuthGuard>
   );
 }

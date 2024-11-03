@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { signInService } from '../../services/AuthService';
 import ROUTES from '../../config/routes';
 
-function SignIn() {
+export default function SignIn() {
   const navigate = useRouter();
 
   const [credentials, setCredentials] = useState({
@@ -17,7 +17,7 @@ function SignIn() {
     e.preventDefault();
     const user = await signInService(credentials);
 
-    //# Handle Sign In Failure
+    // Handle Sign In Failure
     if (!user) return navigate.push(ROUTES['sign-in']);
 
     navigate.push(ROUTES['main']);
@@ -26,6 +26,7 @@ function SignIn() {
   return (
     <div className='sign-in-page'>
       <div className='sign-in'>
+        <h1>Sign In</h1>
         <form onSubmit={handleSignIn}>
           <div className='inputs'>
             <label>
@@ -38,7 +39,7 @@ function SignIn() {
                 onChange={(e) =>
                   setCredentials({ ...credentials, email: e.target.value })
                 }
-              ></input>
+              />
             </label>
             <label>
               Password
@@ -50,12 +51,10 @@ function SignIn() {
                 onChange={(e) =>
                   setCredentials({ ...credentials, password: e.target.value })
                 }
-              ></input>
+              />
             </label>
           </div>
-          <div>
-            <button type='submit'>Sign In</button>
-          </div>
+          <button type='submit'>Sign In</button>
         </form>
         <p>
           New user?{' '}
@@ -65,5 +64,3 @@ function SignIn() {
     </div>
   );
 }
-
-export default SignIn;
