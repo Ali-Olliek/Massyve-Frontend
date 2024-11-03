@@ -12,7 +12,7 @@ class Response {
   }
 }
 
-interface ISuccessResponse {
+export interface ISuccessResponse {
   parent: IResponse;
   data: Record<string, any>;
 }
@@ -25,7 +25,7 @@ export class SuccessResponse extends Response {
   }
 }
 
-interface IFailResponse {
+export interface IFailResponse {
   parent: IResponse;
   message: string;
   exception: string | undefined;

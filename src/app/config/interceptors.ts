@@ -1,7 +1,11 @@
 import ROUTES from './routes';
 import { refreshTokenService } from '../services/AuthService';
 import LocalStorageService from '../services/LocalStorageService';
-import { FailResponse, ValidationErrorResponse } from '../classes/Response';
+import {
+  FailResponse,
+  IFailResponse,
+  ValidationErrorResponse,
+} from '../classes/Response';
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const localStorageService = LocalStorageService.getInstance();
@@ -77,7 +81,7 @@ function _isValidationError(error: any): error is ValidationErrorResponse[] {
   );
 }
 
-function _isFailResponse(error: any): error is FailResponse {
+function _isFailResponse(error: any): error is IFailResponse {
   return (
     error &&
     typeof error.message === 'string' &&
