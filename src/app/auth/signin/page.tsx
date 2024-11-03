@@ -58,8 +58,8 @@ function SignIn() {
           </div>
         </form>
         <p>
-          New user? Create Account{' '}
-          <a onClick={() => navigate.push(ROUTES['sign-up'])}>Here</a>
+          New user?{' '}
+          <a onClick={() => navigate.push(ROUTES['sign-up'])}>Create Account</a>
         </p>
       </div>
     </div>

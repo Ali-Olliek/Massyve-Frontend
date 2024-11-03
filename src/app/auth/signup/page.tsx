@@ -20,9 +20,10 @@ function SignUp() {
 
     if (!user) return setCredentials({ username: '', email: '', password: '' });
 
-    navigate.push(ROUTES.main);
+    navigate.push(ROUTES['sign-in']);
   };
 
+  //TODO Add form validation
   return (
     <div className='sign-up-page'>
       <div className='sign-up'>
@@ -34,7 +35,7 @@ function SignUp() {
                 autoComplete='username'
                 type='text'
                 name='username'
-                placeholder='Insert an username'
+                placeholder='Insert a username'
                 value={credentials.username}
                 onChange={(e) =>
                   setCredentials({ ...credentials, username: e.target.value })
@@ -71,8 +72,8 @@ function SignUp() {
           </div>
         </form>
         <p>
-          Alread have an account? Sign In
-          <a onClick={() => navigate.push(ROUTES['sign-in'])}>Here</a>
+          Alread have an account?{' '}
+          <a onClick={() => navigate.push(ROUTES['sign-in'])}>Sign In</a>
         </p>
       </div>
     </div>

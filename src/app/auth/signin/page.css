@@ -46,6 +46,7 @@
   gap: 5px;
   font-size: small;
   font-weight: bold;
+  color: black;
 }
 
 .sign-in > form > div > label > input {
@@ -73,4 +74,13 @@
   justify-content: center;
   width: 100%;
   align-items: center;
+}
+
+
+.sign-in > p {
+  color: black;
+}
+
+.sign-in > p > a {
+  cursor: pointer;
 }

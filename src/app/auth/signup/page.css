@@ -15,9 +15,9 @@
   background: rgb(68, 130, 244);
   background: radial-gradient(
     circle,
-    rgba(68, 130, 244, 1) 0%,
-    rgba(244, 194, 80, 1) 75%,
-    rgba(255, 255, 255, 1) 100%
+    var(--secondary-color) 0%,
+    var(--accent-color) 75%,
+    var(--white) 100%
   );
   height: 100vh;
   width: 100vw;
@@ -45,7 +45,7 @@
   flex-direction: column;
   margin-block: 5px;
   gap: 5px;
-  color: #131313bb;
+  color: var(--text-color);
   font-size: small;
   font-weight: bold;
 }
@@ -61,10 +61,10 @@
 
 .sign-up > form button {
   width: 50%;
-  background-color: #4482f4;
+  background-color: var(--secondary-color);
   height: 30px;
   border-radius: 6px;
-  color: #ffff;
+  color: var(--white);
   border: 0.5px solid;
   font-weight: bold;
   cursor: pointer;
@@ -75,4 +75,12 @@
   justify-content: center;
   width: 100%;
   align-items: center;
+}
+
+.sign-up > p {
+  color: var(--text-color);
+}
+
+.sign-up > p > a {
+  cursor: pointer;
 }
