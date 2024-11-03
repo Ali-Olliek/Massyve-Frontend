@@ -30,7 +30,7 @@ export default class LocalStorageService {
   }
 
   getUser(): AuthenticatedUser | null {
-    let userData = localStorage.getItem('user');
+    const userData = localStorage.getItem('user');
 
     if (!userData) return null;
 

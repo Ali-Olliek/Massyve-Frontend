@@ -24,7 +24,9 @@ const signin = async (
     );
     console.log('API', data.data);
     return data?.data;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const signup = async (
@@ -37,16 +39,18 @@ const signup = async (
     );
 
     return data?.data;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const signout = async (): Promise<any> => {
-  try {
-    const { data } = await authenticatedApi.post('/auth/sign-out');
+// const signout = async (): Promise<any> => {
+//   try {
+//     const { data } = await authenticatedApi.post('/auth/sign-out');
 
-    return data;
-  } catch (error) {}
-};
+//     return data;
+//   } catch (error) {}
+// };
 
 const refreshToken = async (refreshToken: string): Promise<any> => {
   try {
@@ -64,7 +68,9 @@ const refreshToken = async (refreshToken: string): Promise<any> => {
     );
 
     return data?.data;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export {

@@ -1,30 +1,52 @@
+interface IResponse {
+  error: boolean;
+  message: string;
+}
+
 class Response {
   public error: boolean;
   public message?: string;
-  constructor(response: any) {
+  constructor(response: IResponse) {
     this.error = response.error;
     this.message = response.message;
   }
 }
 
+interface ISuccessResponse {
+  parent: IResponse;
+  data: Record<string, any>;
+}
 export class SuccessResponse extends Response {
   public data: any;
-  constructor(success: any) {
-    super(success);
+  constructor(success: ISuccessResponse) {
+    super(success.parent);
     this.error = false;
     this.data = success.data;
   }
 }
 
+interface IFailResponse {
+  parent: IResponse;
+  message: string;
+  exception: string | undefined;
+}
 export class FailResponse extends Response {
   public message: string;
   public exception?: string;
-  constructor(fail: any) {
-    super(fail);
+  constructor(fail: IFailResponse) {
+    super(fail.parent);
     this.error = true;
     this.message = fail.message;
     this.exception = fail?.exception;
   }
+}
+
+interface IValidationResponse {
+  location: string;
+  msg: string;
+  path: string;
+  type: string;
+  value: string;
 }
 
 export class ValidationErrorResponse {
@@ -33,7 +55,7 @@ export class ValidationErrorResponse {
   public path: string;
   public type: string;
   public value: string;
-  constructor(validationErrorResponse: any) {
+  constructor(validationErrorResponse: IValidationResponse) {
     this.location = validationErrorResponse.location;
     this.msg = validationErrorResponse.msg;
     this.path = validationErrorResponse.path;
