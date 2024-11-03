@@ -58,7 +58,8 @@ function SignIn() {
           </div>
         </form>
         <p>
-          New user? Create Account <a href={`/${ROUTES['sign-up']}`}>Here</a>
+          New user? Create Account{' '}
+          <a onClick={() => navigate.push(ROUTES['sign-up'])}>Here</a>
         </p>
       </div>
     </div>

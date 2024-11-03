@@ -72,7 +72,7 @@ function SignUp() {
         </form>
         <p>
           Alread have an account? Sign In
-          <a href={`/${ROUTES['sign-in']}`}>Here</a>
+          <a onClick={() => navigate.push(ROUTES['sign-in'])}>Here</a>
         </p>
       </div>
     </div>
