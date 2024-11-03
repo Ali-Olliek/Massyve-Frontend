@@ -4,8 +4,8 @@ import {
   signInApi,
   // signOutApi,
   signUpApi,
-} from '../apis/AuthApis';
-import { ISignIn, ISignUp } from '../apis/AuthApis';
+} from '../apis/authApis';
+import { ISignIn, ISignUp } from '../apis/authApis';
 import { setUserExternally } from '../context/AuthContext';
 
 // Initialize LocalStorage Service Outside

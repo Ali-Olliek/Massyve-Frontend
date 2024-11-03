@@ -1,9 +1,8 @@
-import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import LocalStorageService from '../services/LocalStorageService';
-import { refreshTokenApi } from '../apis/AuthApis';
-import { refreshTokenService } from '../services/AuthService';
-import { FailResponse, ValidationErrorResponse } from '../classes/Response';
 import ROUTES from './routes';
+import { refreshTokenService } from '../services/AuthService';
+import LocalStorageService from '../services/LocalStorageService';
+import { FailResponse, ValidationErrorResponse } from '../classes/Response';
+import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const localStorageService = LocalStorageService.getInstance();
 

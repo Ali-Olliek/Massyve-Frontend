@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { SuccessResponse } from '../classes/Response';
-import { authenticatedApi, unAuthenticatedApi } from '../config/api';
-import { AuthenticatedUser } from '../services/LocalStorageService';
 import { Config } from '../config/app.config';
+import { AuthenticatedUser } from '../services/LocalStorageService';
+import { authenticatedApi, unAuthenticatedApi } from '../config/api';
 
 export interface ISignIn {
   email: string;
