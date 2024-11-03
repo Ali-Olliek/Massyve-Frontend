@@ -26,3 +26,18 @@ export class FailResponse extends Response {
     this.exception = fail?.exception;
   }
 }
+
+export class ValidationErrorResponse {
+  public location: string;
+  public msg: string;
+  public path: string;
+  public type: string;
+  public value: string;
+  constructor(validationErrorResponse: any) {
+    this.location = validationErrorResponse.location;
+    this.msg = validationErrorResponse.msg;
+    this.path = validationErrorResponse.path;
+    this.type = validationErrorResponse.type;
+    this.value = validationErrorResponse.value;
+  }
+}
