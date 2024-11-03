@@ -13,21 +13,28 @@ export default class LocalStorageService {
     return LocalStorageService.instance;
   }
 
-  saveUser(user: User | Partial<User>) {
-    localStorage.setItem('user', JSON.stringify(user));
+  saveUser(user: User | Partial<User>): void {
+    if (typeof window !== undefined) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
   }
 
-  deleteUser() {
-    localStorage.removeItem('user');
+  deleteUser(): void {
+    if (typeof window !== undefined) {
+      localStorage.removeItem('user');
+    }
   }
 
   getUser(): User | null {
-    const userData = localStorage.getItem('user');
+    if (typeof window !== undefined) {
+      const userData = localStorage.getItem('user');
 
-    if (!userData) return null;
+      if (!userData) return null;
 
-    const user = new User(JSON.parse(userData));
+      const user = new User(JSON.parse(userData));
 
-    return user;
+      return user;
+    }
+    return null;
   }
 }
