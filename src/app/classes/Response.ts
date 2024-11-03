@@ -14,10 +14,10 @@ class Response {
 
 export interface ISuccessResponse {
   parent: IResponse;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 export class SuccessResponse extends Response {
-  public data: any;
+  public data: unknown;
   constructor(success: ISuccessResponse) {
     super(success.parent);
     this.error = false;

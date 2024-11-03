@@ -34,6 +34,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
           } catch (error) {
             localStorageService.deleteUser();
             router.push(ROUTES['sign-in']);
+            console.error(error);
           }
           return;
         }

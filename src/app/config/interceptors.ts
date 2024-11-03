@@ -1,12 +1,12 @@
 import ROUTES from './routes';
 import { refreshTokenService } from '../services/AuthService';
 import LocalStorageService from '../services/LocalStorageService';
+import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import {
   FailResponse,
   IFailResponse,
   ValidationErrorResponse,
 } from '../classes/Response';
-import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const localStorageService = LocalStorageService.getInstance();
 
@@ -29,8 +29,8 @@ export async function handleError(error: AxiosError) {
 }
 
 export function handleRequest(
-  request: InternalAxiosRequestConfig<any>
-): InternalAxiosRequestConfig<any> {
+  request: InternalAxiosRequestConfig<unknown>
+): InternalAxiosRequestConfig<unknown> {
   const localStorageService = LocalStorageService.getInstance();
 
   const user = localStorageService.getUser();
@@ -72,7 +72,9 @@ async function _handle400(error: AxiosError) {
   }
 }
 
-function _isValidationError(error: any): error is ValidationErrorResponse[] {
+function _isValidationError(
+  error: unknown
+): error is ValidationErrorResponse[] {
   return (
     Array.isArray(error) &&
     error.length > 0 &&
@@ -81,10 +83,16 @@ function _isValidationError(error: any): error is ValidationErrorResponse[] {
   );
 }
 
-function _isFailResponse(error: any): error is IFailResponse {
+function _isFailResponse(error: unknown): error is IFailResponse {
+  if (typeof error !== 'object' || error === null) {
+    return false;
+  }
+
+  const failResponse = error as Partial<IFailResponse>;
+
   return (
-    error &&
-    typeof error.message === 'string' &&
-    (error.exception === undefined || typeof error.exception === 'string')
+    typeof failResponse.message === 'string' &&
+    (failResponse.exception === undefined ||
+      typeof failResponse.exception === 'string')
   );
 }

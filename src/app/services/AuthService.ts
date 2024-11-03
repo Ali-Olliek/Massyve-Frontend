@@ -1,19 +1,18 @@
-import LocalStorageService, { AuthenticatedUser } from './LocalStorageService';
+import { User } from '../classes/User';
+import { ISignIn, ISignUp } from '../apis/authApis';
+import LocalStorageService from './LocalStorageService';
+import { setUserExternally } from '../context/AuthContext';
 import {
   refreshTokenApi,
   signInApi,
   // signOutApi,
   signUpApi,
 } from '../apis/authApis';
-import { ISignIn, ISignUp } from '../apis/authApis';
-import { setUserExternally } from '../context/AuthContext';
 
 // Initialize LocalStorage Service Outside
 const localStorageService = LocalStorageService.getInstance();
 
-const signin = async (
-  credentials: ISignIn
-): Promise<AuthenticatedUser | null> => {
+const signin = async (credentials: ISignIn): Promise<User | null> => {
   try {
     const userData = await signInApi(credentials);
 
@@ -28,9 +27,7 @@ const signin = async (
   }
 };
 
-const signup = async (
-  credentials: ISignUp
-): Promise<AuthenticatedUser | null> => {
+const signup = async (credentials: ISignUp): Promise<User | null> => {
   try {
     const userData = await signUpApi(credentials);
 
@@ -63,20 +60,23 @@ const refreshToken = async (): Promise<string> => {
       throw new Error('User Logged Out');
     }
 
-    const { accessToken } = await refreshTokenApi(user?.refreshToken);
+    const data = await refreshTokenApi(user?.refreshToken);
 
-    localStorageService.saveUser({ ...user, accessToken: accessToken });
+    if (!data?.accessToken) throw new Error('No Access Token');
 
-    setUserExternally({ ...user, accessToken: accessToken });
+    localStorageService.saveUser({ ...user, accessToken: data.accessToken });
 
-    return accessToken;
+    setUserExternally({ ...user, accessToken: data.accessToken });
+
+    return data.accessToken;
   } catch (error) {
     throw error;
   }
 };
 
 function _removeUser() {
-  setUserExternally(null), localStorageService.deleteUser();
+  setUserExternally(null);
+  localStorageService.deleteUser();
 }
 
 export {
@@ -86,10 +86,11 @@ export {
   refreshToken as refreshTokenService,
 };
 
-export default {
+const services = {
   signin,
   signup,
-  signout,
   refreshToken,
+  signout,
 };
 
+export default services;
