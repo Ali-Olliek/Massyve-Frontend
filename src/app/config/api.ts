@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { handleRequest, handleError, handleSuccess } from './interceptors';
+import { Config } from './app.config';
 
 const unAuthenticatedApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: Config.baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -11,11 +12,12 @@ const unAuthenticatedApi = axios.create({
 });
 
 const authenticatedApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: Config.baseUrl,
   headers: {
-    Content: 'application/json',
+    'Content-Type': 'application/json',
   },
   timeout: 50000,
+  withCredentials: true,
 });
 
 authenticatedApi.interceptors.request.use(handleRequest);
