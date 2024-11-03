@@ -1,38 +1,24 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import LocalStorageService from '../services/LocalStorageService';
-import { refreshTokenApi } from '../apis/authApis';
+import { refreshTokenApi } from '../apis/AuthApis';
 import { refreshTokenService } from '../services/AuthService';
+import { FailResponse, ValidationErrorResponse } from '../classes/Response';
+import ROUTES from './routes';
+
+const localStorageService = LocalStorageService.getInstance();
 
 export function handleSuccess<T>(success: AxiosResponse<T>): AxiosResponse<T> {
   return success;
 }
 
 export async function handleError(error: AxiosError) {
-  const localStorageService = LocalStorageService.getInstance();
-
   switch (error.response?.status) {
     case 400:
+      _handle400(error);
       break;
 
     case 401:
-      // Try to refresh token before logging out
-      console.log('Ordering a new access token');
-      const newAccessToken = await refreshTokenService();
-      console.log('new access token: ', newAccessToken);
-      if (
-        newAccessToken?.accessToken !== undefined ||
-        newAccessToken?.accessToken !== null
-      ) {
-        localStorageService.saveUser({
-          accessToken: newAccessToken.accessToken,
-        });
-        return;
-      }
-
-      localStorageService.deleteUser();
-      window.location.href = '/signin';
-      break;
-
+      _handle401();
     default:
       console.log('Unhandled Error', error);
       break;
@@ -49,4 +35,53 @@ export function handleRequest(
   request.headers['Authorization'] = `Bearer ${user?.accessToken}`;
 
   return request;
+}
+
+async function _handle401() {
+  // Try to fetch a new access token
+  const newAccessToken = await refreshTokenService();
+
+  if (newAccessToken) {
+    return localStorageService.saveUser({ accessToken: newAccessToken });
+  }
+
+  localStorageService.deleteUser();
+  window.location.href = ROUTES['sign-in'];
+  return;
+}
+
+async function _handle400(error: AxiosError) {
+  const data = error.response?.data;
+
+  if (_isValidationError(data)) {
+    // Dispatch a toast with `msg` value
+    const validationErrors = data.map(
+      (error) => new ValidationErrorResponse(error)
+    );
+
+    console.log(validationErrors);
+  }
+  if (_isFailResponse(data)) {
+    // Dispatch a toast with `message` value
+    const failResponse = new FailResponse(data);
+
+    console.log(failResponse);
+  }
+}
+
+function _isValidationError(error: any): error is ValidationErrorResponse[] {
+  return (
+    Array.isArray(error) &&
+    error.length > 0 &&
+    'location' in error[0] &&
+    'msg' in error[0]
+  );
+}
+
+function _isFailResponse(error: any): error is FailResponse {
+  return (
+    error &&
+    typeof error.message === 'string' &&
+    (error.exception === undefined || typeof error.exception === 'string')
+  );
 }
