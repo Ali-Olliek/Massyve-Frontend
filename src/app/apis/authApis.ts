@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { SuccessResponse } from '../classes/Response';
 import { authenticatedApi, unAuthenticatedApi } from '../config/api';
 import { AuthenticatedUser } from '../services/LocalStorageService';
+import { Config } from '../config/app.config';
 
 export interface ISignIn {
   email: string;
@@ -17,8 +19,11 @@ const signin = async (
   credentials: ISignIn
 ): Promise<AuthenticatedUser | undefined> => {
   try {
-    const { data } = await authenticatedApi.post('/auth/sign-in', credentials);
-
+    const { data } = await unAuthenticatedApi.post(
+      '/auth/sign-in',
+      credentials
+    );
+    console.log('API', data.data);
     return data?.data;
   } catch (error) {}
 };
@@ -44,17 +49,28 @@ const signout = async (): Promise<any> => {
   } catch (error) {}
 };
 
-const refreshToken = async (): Promise<any> => {
+const refreshToken = async (refreshToken: string): Promise<any> => {
   try {
-    const { data } = await authenticatedApi.post('/auth/refresh');
+    const { data } = await axios.post(
+      `${Config.baseUrl}/auth/refresh`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 50000,
+        withCredentials: true,
+      }
+    );
 
-    return data;
+    return data?.data;
   } catch (error) {}
 };
 
 export {
   signin as signInApi,
-  signout as signOutApi,
+  // signout as signOutApi,
   signup as signUpApi,
   refreshToken as refreshTokenApi,
 };

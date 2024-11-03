@@ -2,10 +2,11 @@ import LocalStorageService, { AuthenticatedUser } from './LocalStorageService';
 import {
   refreshTokenApi,
   signInApi,
-  signOutApi,
+  // signOutApi,
   signUpApi,
-} from '../apis/authApis';
-import { ISignIn, ISignUp } from '../apis/authApis';
+} from '../apis/AuthApis';
+import { ISignIn, ISignUp } from '../apis/AuthApis';
+import { setUserExternally } from '../context/AuthContext';
 
 // Initialize LocalStorage Service Outside
 const localStorageService = LocalStorageService.getInstance();
@@ -18,6 +19,7 @@ const signin = async (
 
     if (!userData) return null;
 
+    setUserExternally(userData);
     localStorageService.saveUser(userData);
 
     return userData;
@@ -44,25 +46,38 @@ const signup = async (
 
 const signout = async () => {
   try {
-    await signOutApi();
-
-    localStorageService.deleteUser();
+    // await signOutApi();
+    //TODO Add SignOut functionality on server side
+    _removeUser();
   } catch (error) {
     throw error;
   }
 };
 
-const refreshToken = async () => {
+const refreshToken = async (): Promise<string> => {
   try {
     const user = localStorageService.getUser();
 
-    const newAccessToken = await refreshTokenApi();
+    if (!user?.refreshToken) {
+      _removeUser();
+      throw new Error('User Logged Out');
+    }
 
-    return newAccessToken;
+    const { accessToken } = await refreshTokenApi(user?.refreshToken);
+
+    localStorageService.saveUser({ ...user, accessToken: accessToken });
+
+    setUserExternally({ ...user, accessToken: accessToken });
+
+    return accessToken;
   } catch (error) {
     throw error;
   }
 };
+
+function _removeUser() {
+  setUserExternally(null), localStorageService.deleteUser();
+}
 
 export {
   signin as signInService,
@@ -70,3 +85,11 @@ export {
   signout as signOutService,
   refreshToken as refreshTokenService,
 };
+
+export default {
+  signin,
+  signup,
+  signout,
+  refreshToken,
+};
+
