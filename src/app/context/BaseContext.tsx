@@ -1,3 +1,4 @@
+'use client';
 // client/src/contexts/BaseContext.tsx
 import React, { ReactNode } from 'react';
 import { AuthProvider } from './AuthContext';
