@@ -56,7 +56,7 @@ const refreshToken = async (
   refreshToken: string
 ): Promise<IRefreshToken | undefined> => {
   try {
-    const data = await axios.post(
+    const { data } = await axios.post(
       `${Config.baseUrl}/auth/refresh`,
       {},
       {
